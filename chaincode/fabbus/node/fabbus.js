@@ -38,7 +38,7 @@ let Chaincode = class {
     }
   }
 
-  async queryCar(stub, args) {
+  async queryBus(stub, args) {
     if (args.length != 1) {
       throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
     }
@@ -52,24 +52,24 @@ let Chaincode = class {
     return carAsBytes;
   }
 
-  async initLedger(stub, args) {
+  async initLedger2(stub, args) { //essayer de modif les deux
     console.info('============= START : Initialize Ledger ===========');
     let cars = [];
     cars.push({
-      make: 'Toyotatatatatatata',
+      make: 'Toyota',
       model: 'Prius',
       color: 'blue',
       owner: 'Tomoko'
     });
     cars.push({
-      make: 'Fordadadadadadadaadad',
+      make: 'Forda',
       model: 'Mustang',
       color: 'blue',
       owner: 'Brad'
     });
     cars.push({
       make: 'Hyundai',
-      model: 'Tucson DAMN SON',
+      model: 'Tucson',
       color: 'blue',
       owner: 'Jin Soo'
     });
@@ -117,21 +117,21 @@ let Chaincode = class {
     });
 
     for (let i = 0; i < cars.length; i++) {
-      cars[i].docType = 'car';
-      await stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
+      cars[i].docType = 'bus';
+      await stub.putState('BUS' + i, Buffer.from(JSON.stringify(cars[i])));
       console.info('Added <--> ', cars[i]);
     }
     console.info('============= END : Initialize Ledger ===========');
   }
 
-  async createCar(stub, args) {
+  async createBus(stub, args) {
     console.info('============= START : Create Car ===========');
     if (args.length != 5) {
       throw new Error('Incorrect number of arguments. Expecting 5');
     }
 
     var car = {
-      docType: 'car',
+      docType: 'bus',
       make: args[1],
       model: args[2],
       color: args[3],
@@ -142,10 +142,10 @@ let Chaincode = class {
     console.info('============= END : Create Car ===========');
   }
 
-  async queryAllCars(stub, args) {
+  async queryAllBusses(stub, args) {
 
-    let startKey = 'CAR0';
-    let endKey = 'CAR999';
+    let startKey = 'BUS0';
+    let endKey = 'BUS999';
 
     let iterator = await stub.getStateByRange(startKey, endKey);
 
@@ -175,7 +175,7 @@ let Chaincode = class {
     }
   }
 
-  async changeCarOwner(stub, args) {
+  async changeBusOwner(stub, args) {
     console.info('============= START : changeCarOwner ===========');
     if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
