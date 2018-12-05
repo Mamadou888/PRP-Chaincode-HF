@@ -30,7 +30,7 @@ let Chaincode = class {
       throw new Error('Received unknown function ' + ret.fcn + ' invocation');
     }
     try {
-      let payload = await method(stub, ret.params);
+      let payload = await method(stub, ret.params, this);
       return shim.success(payload);
     } catch (err) {
       console.log(err);
@@ -38,7 +38,7 @@ let Chaincode = class {
     }
   }
 
-  async queryCar(stub, args) {
+  async queryCar(stub, args, thisClass) {
     if (args.length != 1) {
       throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
     }
@@ -52,7 +52,7 @@ let Chaincode = class {
     return carAsBytes;
   }
 
-  async initLedger(stub, args) {
+  async initLedger(stub, args,thisClass) {
     console.info('============= START : Initialize Ledger ===========');
     let cars = [];
     cars.push({
@@ -124,7 +124,7 @@ let Chaincode = class {
     console.info('============= END : Initialize Ledger ===========');
   }
 
-  async createCar(stub, args) {
+  async createCar(stub, args, thisClass) {
     console.info('============= START : Create Car ===========');
     if (args.length != 5) {
       throw new Error('Incorrect number of arguments. Expecting 5');
@@ -142,7 +142,24 @@ let Chaincode = class {
     console.info('============= END : Create Car ===========');
   }
 
-  async queryAllCars(stub, args) {
+  async queryCarsByOwner(stub, args, thisClass) {
+    //   0
+    // 'bob'
+    if (args.length < 1) {
+      throw new Error('Incorrect number of arguments. Expecting owner name.')
+    }
+
+    let owner = args[0]//.toLowerCase();
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.docType = 'car';
+    queryString.selector.owner = owner;
+    let method = thisClass['getQueryResultForQueryString'];
+    let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
+    return queryResults; //shim.success(queryResults);
+  }
+
+  async queryAllCars(stub, args, thisClass) {
 
     let startKey = 'CAR0';
     let endKey = 'CAR999';
@@ -175,7 +192,7 @@ let Chaincode = class {
     }
   }
 
-  async changeCarOwner(stub, args) {
+  async changeCarOwner(stub, args, thisClass) {
     console.info('============= START : changeCarOwner ===========');
     if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
