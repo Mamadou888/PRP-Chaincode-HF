@@ -56,69 +56,34 @@ let Chaincode = class {
     console.info('============= START : Initialize Ledger ===========');
     let cars = [];
     cars.push({
-      make: 'Toyota',
-      model: 'Prius',
-      color: 'blue',
-      owner: 'Tomoko'
+      brand: 'IglooAtHome',
+      model: 'Prime',
+      volume: '0.1',
+      annualConsumption: '150'
     });
     cars.push({
-      make: 'Forda',
-      model: 'Mustang',
-      color: 'blue',
-      owner: 'Brad'
+      brand: 'EnergyLossCo',
+      model: 'ZT-3450',
+      volume: '0.4',
+      annualConsumption: '2000'
     });
     cars.push({
-      make: 'Hyundai',
-      model: 'Tucson',
-      color: 'blue',
-      owner: 'Jin Soo'
+      brand: 'Simenes',
+      model: 'FoodKeeper-C6',
+      volume: '0.3',
+      annualConsumption: '700'
     });
     cars.push({
-      make: 'Volkswagen',
-      model: 'Passat',
-      color: 'yellow',
-      owner: 'Max'
+      brand: 'IglooAtHome',
+      model: 'Secundus',
+      volume: '0.15',
+      annualConsumption: '175'
     });
-    cars.push({
-      make: 'Tesla',
-      model: 'S',
-      color: 'black',
-      owner: 'Adriana'
-    });
-    cars.push({
-      make: 'Peugeot',
-      model: '205',
-      color: 'purple',
-      owner: 'Michel'
-    });
-    cars.push({
-      make: 'Chery',
-      model: 'S22L',
-      color: 'white',
-      owner: 'Aarav'
-    });
-    cars.push({
-      make: 'Fiat',
-      model: 'Punto',
-      color: 'violet',
-      owner: 'Pari'
-    });
-    cars.push({
-      make: 'Tata',
-      model: 'Nano',
-      color: 'indigo',
-      owner: 'Valeria'
-    });
-    cars.push({
-      make: 'Holden',
-      model: 'Barina',
-      color: 'brown',
-      owner: 'Shotaro'
-    });
+    
 
     for (let i = 0; i < cars.length; i++) {
-      cars[i].docType = 'bus';
-      await stub.putState('BUS' + i, Buffer.from(JSON.stringify(cars[i])));
+      cars[i].docType = 'freezer';
+      await stub.putState('FREEZER' + i, Buffer.from(JSON.stringify(cars[i])));
       console.info('Added <--> ', cars[i]);
     }
     console.info('============= END : Initialize Ledger ===========');
@@ -131,11 +96,11 @@ let Chaincode = class {
     }
 
     var car = {
-      docType: 'bus',
-      make: args[1],
+      docType: 'freezer',
+      brand: args[1],
       model: args[2],
-      color: args[3],
-      owner: args[4]
+      volume: args[3],
+      annualConsumption: args[4]
     };
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
@@ -144,8 +109,8 @@ let Chaincode = class {
 
   async queryAllBusses(stub, args) {
 
-    let startKey = 'BUS0';
-    let endKey = 'BUS999';
+    let startKey = 'FREEZER0';
+    let endKey = 'FREEZER999';
 
     let iterator = await stub.getStateByRange(startKey, endKey);
 

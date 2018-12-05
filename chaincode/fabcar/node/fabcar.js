@@ -56,69 +56,34 @@ let Chaincode = class {
     console.info('============= START : Initialize Ledger ===========');
     let cars = [];
     cars.push({
-      make: 'Toyotatatatatatata',
-      model: 'Prius',
-      color: 'blue',
-      owner: 'Tomoko'
+      brand: 'LightBulbsInc',
+      model: 'X-300',
+      lumens: '320',
+      watts: '4.5'
     });
     cars.push({
-      make: 'Fordadadadadadadaadad',
-      model: 'Mustang',
-      color: 'blue',
-      owner: 'Brad'
+      brand: 'LightBulbsInc',
+      model: 'X-345',
+      lumens: '600',
+      watts: '8'
     });
     cars.push({
-      make: 'Hyundai',
-      model: 'Tucson DAMN SON',
-      color: 'blue',
-      owner: 'Jin Soo'
+      brand: 'EnergyLossCo',
+      model: 'Z-12-6',
+      lumens: '600',
+      watts: '20'
     });
     cars.push({
-      make: 'Volkswagen',
-      model: 'Passat',
-      color: 'yellow',
-      owner: 'Max'
+      brand: 'LightBulbsInc',
+      model: 'X-1500',
+      lumens: '1600',
+      watts: '15'
     });
-    cars.push({
-      make: 'Tesla',
-      model: 'S',
-      color: 'black',
-      owner: 'Adriana'
-    });
-    cars.push({
-      make: 'Peugeot',
-      model: '205',
-      color: 'purple',
-      owner: 'Michel'
-    });
-    cars.push({
-      make: 'Chery',
-      model: 'S22L',
-      color: 'white',
-      owner: 'Aarav'
-    });
-    cars.push({
-      make: 'Fiat',
-      model: 'Punto',
-      color: 'violet',
-      owner: 'Pari'
-    });
-    cars.push({
-      make: 'Tata',
-      model: 'Nano',
-      color: 'indigo',
-      owner: 'Valeria'
-    });
-    cars.push({
-      make: 'Holden',
-      model: 'Barina',
-      color: 'brown',
-      owner: 'Shotaro'
-    });
+    
 
     for (let i = 0; i < cars.length; i++) {
-      cars[i].docType = 'car';
-      await stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
+      cars[i].docType = 'lighting';
+      await stub.putState('LIGHTING' + i, Buffer.from(JSON.stringify(cars[i])));
       console.info('Added <--> ', cars[i]);
     }
     console.info('============= END : Initialize Ledger ===========');
@@ -131,11 +96,11 @@ let Chaincode = class {
     }
 
     var car = {
-      docType: 'car',
-      make: args[1],
+      docType: 'lighting',
+      brand: args[1],
       model: args[2],
-      color: args[3],
-      owner: args[4]
+      lumens: args[3],
+      watts: args[4]
     };
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
@@ -144,8 +109,8 @@ let Chaincode = class {
 
   async queryAllCars(stub, args) {
 
-    let startKey = 'CAR0';
-    let endKey = 'CAR999';
+    let startKey = 'LIGHTING0';
+    let endKey = 'LIGHTING999';
 
     let iterator = await stub.getStateByRange(startKey, endKey);
 
@@ -175,18 +140,18 @@ let Chaincode = class {
     }
   }
 
-  async changeCarOwner(stub, args) {
-    console.info('============= START : changeCarOwner ===========');
+  async changeCarwatts(stub, args) {
+    console.info('============= START : changeCarwatts ===========');
     if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
     }
 
     let carAsBytes = await stub.getState(args[0]);
     let car = JSON.parse(carAsBytes);
-    car.owner = args[1];
+    car.watts = args[1];
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
-    console.info('============= END : changeCarOwner ===========');
+    console.info('============= END : changeCarwatts ===========');
   }
 };
 
