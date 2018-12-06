@@ -54,77 +54,73 @@ let Chaincode = class {
 
   async initLedger(stub, args,thisClass) {
     console.info('============= START : Initialize Ledger ===========');
-    let cars = [];
-    cars.push({
-      make: 'Toyotatatatatatata',
-      model: 'Prius',
-      color: 'blue',
-      owner: 'Tomoko'
+    let lighting = [];
+    lighting.push({
+      brand: 'LightBulbsInc',
+      model: 'X-300',
+      lumens: '320',
+      watts: '4.5'
     });
-    cars.push({
-      make: 'Fordadadadadadadaadad',
-      model: 'Mustang',
-      color: 'blue',
-      owner: 'Brad'
+    lighting.push({
+      brand: 'LightBulbsInc',
+      model: 'X-345',
+      lumens: '600',
+      watts: '8'
     });
-    cars.push({
-      make: 'Hyundai',
-      model: 'Tucson DAMN SON',
-      color: 'blue',
-      owner: 'Jin Soo'
+    lighting.push({
+      brand: 'EnergyLossCo',
+      model: 'Z-12-6',
+      lumens: '600',
+      watts: '20'
     });
-    cars.push({
-      make: 'Volkswagen',
-      model: 'Passat',
-      color: 'yellow',
-      owner: 'Max'
-    });
-    cars.push({
-      make: 'Tesla',
-      model: 'S',
-      color: 'black',
-      owner: 'Adriana'
-    });
-    cars.push({
-      make: 'Peugeot',
-      model: '205',
-      color: 'purple',
-      owner: 'Michel'
-    });
-    cars.push({
-      make: 'Chery',
-      model: 'S22L',
-      color: 'white',
-      owner: 'Aarav'
-    });
-    cars.push({
-      make: 'Fiat',
-      model: 'Punto',
-      color: 'violet',
-      owner: 'Pari'
-    });
-    cars.push({
-      make: 'Tata',
-      model: 'Nano',
-      color: 'indigo',
-      owner: 'Valeria'
-    });
-    cars.push({
-      make: 'Holden',
-      model: 'Barina',
-      color: 'brown',
-      owner: 'Shotaro'
+    lighting.push({
+      brand: 'LightBulbsInc',
+      model: 'X-1500',
+      lumens: '1600',
+      watts: '15'
     });
 
-    for (let i = 0; i < cars.length; i++) {
-      cars[i].docType = 'car';
-      await stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
-      console.info('Added <--> ', cars[i]);
+    for (let i = 0; i < lighting.length; i++) {
+      lighting[i].docType = 'lighting';
+      await stub.putState('LIGHTING' + i, Buffer.from(JSON.stringify(lighting[i])));
+      console.info('Added <--> ', lighting[i]);
     }
+
+    let refrigerators = [];
+    refrigerators.push({
+      brand: 'IglooAtHome',
+      model: 'Prime',
+      volume: '0.1',
+      annualConsumption: '150'
+    });
+    refrigerators.push({
+      brand: 'EnergyLossCo',
+      model: 'ZT-3450',
+      volume: '0.4',
+      annualConsumption: '2000'
+    });
+    refrigerators.push({
+      brand: 'Simenes',
+      model: 'FoodKeeper-C6',
+      volume: '0.3',
+      annualConsumption: '700'
+    });
+    refrigerators.push({
+      brand: 'IglooAtHome',
+      model: 'Secundus',
+      volume: '0.15',
+      annualConsumption: '175'
+    });
+    for (let i = 0; i < refrigerators.length; i++) {
+      refrigerators[i].docType = 'refrigerator';
+      await stub.putState('REFRIGERATOR' + i, Buffer.from(JSON.stringify(refrigerators[i])));
+      console.info('Added <--> ', refrigerators[i]);
+    }
+
     console.info('============= END : Initialize Ledger ===========');
   }
 
-  async createCar(stub, args, thisClass) {
+  /*async createCar(stub, args, thisClass) {
     console.info('============= START : Create Car ===========');
     if (args.length != 5) {
       throw new Error('Incorrect number of arguments. Expecting 5');
@@ -140,20 +136,20 @@ let Chaincode = class {
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
     console.info('============= END : Create Car ===========');
-  }
+  }*/
 
-  async queryCarsByOwner(stub, args, thisClass) {
+  async queryLightingByBrand(stub, args, thisClass) {
     //   0
     // 'bob'
     if (args.length < 1) {
-      throw new Error('Incorrect number of arguments. Expecting owner name.')
+      throw new Error('Incorrect number of arguments. Expecting brand name.')
     }
 
-    let owner = args[0]//.toLowerCase();
+    let brand = args[0]//.toLowerCase();
     let queryString = {};
     queryString.selector = {};
-    queryString.selector.docType = 'car';
-    queryString.selector.owner = owner;
+    queryString.selector.docType = 'lighting';
+    queryString.selector.brand = brand;
     let method = thisClass['getQueryResultForQueryString'];
     let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
     return queryResults; //shim.success(queryResults);
@@ -170,7 +166,7 @@ let Chaincode = class {
     return Buffer.from(JSON.stringify(results));
   }
 
-    async getAllResults(iterator, isHistory) {
+  async getAllResults(iterator, isHistory) {
     let allResults = [];
     while (true) {
       let res = await iterator.next();
@@ -211,10 +207,10 @@ let Chaincode = class {
 
 
 
-  async queryAllCars(stub, args, thisClass) {
+  /*async queryAllCars(stub, args, thisClass) {
 
-    let startKey = 'CAR0';
-    let endKey = 'CAR999';
+    let startKey = 'REFRIGERATOR0';
+    let endKey = 'REFRIGERATOR999';
 
     let iterator = await stub.getStateByRange(startKey, endKey);
 
@@ -242,9 +238,9 @@ let Chaincode = class {
         return Buffer.from(JSON.stringify(allResults));
       }
     }
-  }
+  }*/
 
-  async changeCarOwner(stub, args, thisClass) {
+  /*async changeCarOwner(stub, args, thisClass) {
     console.info('============= START : changeCarOwner ===========');
     if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
@@ -256,7 +252,7 @@ let Chaincode = class {
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
     console.info('============= END : changeCarOwner ===========');
-  }
+  }*/
 };
 
 shim.start(new Chaincode());
