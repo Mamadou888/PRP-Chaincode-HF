@@ -54,8 +54,8 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	const request = {
 		//targets : --- letting this default to the peers assigned to the channel
 		chaincodeId: 'PRS',
-		fcn: 'queryLightingByBrand',
-		args: ['LightBulbsInc']
+		fcn: 'queryProductByDoctype',
+		args: ['refrigerator']
 	};
 
 	// send the query proposal to the peer

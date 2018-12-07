@@ -8,6 +8,7 @@
 const shim = require('fabric-shim');
 const util = require('util');
 
+
 let Chaincode = class {
 
   // The Init method is called when the Smart Contract 'fabcar' is instantiated by the blockchain network
@@ -38,7 +39,7 @@ let Chaincode = class {
     }
   }
 
-  async queryCar(stub, args, thisClass) {
+  /*async queryCar(stub, args, thisClass) {
     if (args.length != 1) {
       throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
     }
@@ -50,7 +51,7 @@ let Chaincode = class {
     }
     console.log(carAsBytes.toString());
     return carAsBytes;
-  }
+  }*/
 
   async initLedger(stub, args,thisClass) {
     console.info('============= START : Initialize Ledger ===========');
@@ -120,23 +121,51 @@ let Chaincode = class {
     console.info('============= END : Initialize Ledger ===========');
   }
 
-  /*async createCar(stub, args, thisClass) {
+  async createProduct(stub, args, thisClass) {
     console.info('============= START : Create Car ===========');
-    if (args.length != 5) {
-      throw new Error('Incorrect number of arguments. Expecting 5');
+    /*if (args.length != 6) {
+      throw new Error('Incorrect number of arguments. Expecting 6');
+    }*/
+    if (args[1]='refrigerator'){
+      var product = {
+      docType: 'refrigerator',
+      brand: args[2],
+      model: args[3],
+      volume: args[4],
+      annualConsumption: args[5]
+      };
+    }else if (args[1]='lighting'){
+      var product = {
+      docType: 'lighting',
+      brand: args[2],
+      model: args[3],
+      lumens: args[4],
+      watts: args[5]
+      };
+
+    }
+    
+
+    await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
+    //args[0] is the reference of the product, the unique ID for it
+    console.info('============= END : Create Product ===========');
+  }
+
+  async queryProductByDoctype(stub, args, thisClass) {
+    //   0
+    // 'bob'
+    if (args.length < 1) {
+      throw new Error('Incorrect number of arguments. Expecting doctype.')
     }
 
-    var car = {
-      docType: 'car',
-      make: args[1],
-      model: args[2],
-      color: args[3],
-      owner: args[4]
-    };
-
-    await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
-    console.info('============= END : Create Car ===========');
-  }*/
+    let doctype = args[0]//.toLowerCase();
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.docType = doctype;
+    let method = thisClass['getQueryResultForQueryString'];
+    let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
+    return queryResults; //shim.success(queryResults);
+  }
 
   async queryLightingByBrand(stub, args, thisClass) {
     //   0
@@ -206,6 +235,7 @@ let Chaincode = class {
   }
 
 
+  
 
   /*async queryAllCars(stub, args, thisClass) {
 

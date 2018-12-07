@@ -54,15 +54,18 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	// get a transaction id object based on the current user assigned to fabric client
 	tx_id = fabric_client.newTransactionID();
 	console.log("Assigning transaction_id: ", tx_id._transaction_id);
-
 	// createCar chaincode function - requires 5 args, ex: args: ['CAR12', 'Honda', 'Accord', 'Black', 'Tom'],
 	// changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
 	// must send the proposal to endorsing peers
+	/*var parameters = [];
+	for (var i = 0; i < 6; i++){
+		parameters[i] = process.argv.slice(i + 2)
+	}*/
 	var request = {
 		//targets: let default to the peer assigned to the client
-		chaincodeId: 'fabcar',
-		fcn: '',
-		args: [''],
+		chaincodeId: 'PRS',
+		fcn: 'createProduct',
+		args: ['REFRIGERATOR4','refrigerator','HyperCooler','CT4','1','3400'],
 		chainId: 'mychannel',
 		txId: tx_id
 	};
