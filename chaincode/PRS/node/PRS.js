@@ -39,19 +39,9 @@ let Chaincode = class {
     }
   }
 
-  /*async queryCar(stub, args, thisClass) {
-    if (args.length != 1) {
-      throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
-    }
-    let carNumber = args[0];
-
-    let carAsBytes = await stub.getState(carNumber); //get the car from chaincode state
-    if (!carAsBytes || carAsBytes.toString().length <= 0) {
-      throw new Error(carNumber + ' does not exist: ');
-    }
-    console.log(carAsBytes.toString());
-    return carAsBytes;
-  }*/
+////////////////////////////////////////////////////////////////////////////
+//////////////////////////   INIT    ///////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
   async initLedger(stub, args,thisClass) {
     console.info('============= START : Initialize Ledger ===========');
@@ -121,8 +111,13 @@ let Chaincode = class {
     console.info('============= END : Initialize Ledger ===========');
   }
 
+////////////////////////////////////////////////////////////////////////////
+//////////////////////////   INVOKE   //////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+
   async createProduct(stub, args, thisClass) {
-    console.info('============= START : Create Car ===========');
+    console.info('============= START : Create Product ===========');
     /*if (args.length != 6) {
       throw new Error('Incorrect number of arguments. Expecting 6');
     }*/
@@ -151,9 +146,27 @@ let Chaincode = class {
     console.info('============= END : Create Product ===========');
   }
 
+////////////////////////////////////////////////////////////////////////////
+//////////////////////////   QUERIES ///////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+
+  async queryProductByKey(stub, args, thisClass) {
+    if (args.length != 1) {
+      throw new Error('Incorrect number of arguments. Expecting Reference ex: REFRIGERATOR1');
+    }
+    let key = args[0];
+
+    let productAsBytes = await stub.getState(key); //get the car from chaincode state
+    if (!productAsBytes || productAsBytes.toString().length <= 0) {
+      throw new Error(key + ' does not exist: ');
+    }
+    console.log(productAsBytes.toString());
+    return productAsBytes;
+  }
+
   async queryProductByDoctype(stub, args, thisClass) {
-    //   0
-    // 'bob'
+
     if (args.length < 1) {
       throw new Error('Incorrect number of arguments. Expecting doctype.')
     }
@@ -168,8 +181,7 @@ let Chaincode = class {
   }
 
   async queryLightingByBrand(stub, args, thisClass) {
-    //   0
-    // 'bob'
+
     if (args.length < 1) {
       throw new Error('Incorrect number of arguments. Expecting brand name.')
     }
@@ -183,6 +195,21 @@ let Chaincode = class {
     let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
     return queryResults; //shim.success(queryResults);
   }
+
+  async queryAllProducts(stub, args, thisClass) {
+
+
+    let doctype = args[0]//.toLowerCase();
+    let queryString = {};
+    queryString.selector = {};
+    let method = thisClass['getQueryResultForQueryString'];
+    let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
+    return queryResults; //shim.success(queryResults);
+  }
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
   async getQueryResultForQueryString(stub, queryString, thisClass) {
 
@@ -234,55 +261,6 @@ let Chaincode = class {
     }
   }
 
-
-  
-
-  /*async queryAllCars(stub, args, thisClass) {
-
-    let startKey = 'REFRIGERATOR0';
-    let endKey = 'REFRIGERATOR999';
-
-    let iterator = await stub.getStateByRange(startKey, endKey);
-
-    let allResults = [];
-    while (true) {
-      let res = await iterator.next();
-
-      if (res.value && res.value.value.toString()) {
-        let jsonRes = {};
-        console.log(res.value.value.toString('utf8'));
-
-        jsonRes.Key = res.value.key;
-        try {
-          jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
-        } catch (err) {
-          console.log(err);
-          jsonRes.Record = res.value.value.toString('utf8');
-        }
-        allResults.push(jsonRes);
-      }
-      if (res.done) {
-        console.log('end of data');
-        await iterator.close();
-        console.info(allResults);
-        return Buffer.from(JSON.stringify(allResults));
-      }
-    }
-  }*/
-
-  /*async changeCarOwner(stub, args, thisClass) {
-    console.info('============= START : changeCarOwner ===========');
-    if (args.length != 2) {
-      throw new Error('Incorrect number of arguments. Expecting 2');
-    }
-
-    let carAsBytes = await stub.getState(args[0]);
-    let car = JSON.parse(carAsBytes);
-    car.owner = args[1];
-
-    await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
-    console.info('============= END : changeCarOwner ===========');
-  }*/
 };
 
 shim.start(new Chaincode());
