@@ -1,23 +1,24 @@
 [//]: # (SPDX-License-Identifier: CC-BY-4.0)
 
-## Hyperledger Fabric Samples
+## Product Registration System Blockchain
 
-Please visit the [installation instructions](http://hyperledger-fabric.readthedocs.io/en/latest/install.html)
-to ensure you have the correct prerequisites installed. Please use the
-version of the documentation that matches the version of the software you
-intend to use to ensure alignment.
+Works with Hyperledger Fabric (https://www.hyperledger.org/projects/fabric).
+Uses currently the fabcar's tutorial network as a basis that was built upon.
 
-## Download Binaries and Docker Images
+## Manual of the user
 
-The [`scripts/bootstrap.sh`](https://github.com/hyperledger/fabric-samples/blob/release-1.3/scripts/bootstrap.sh)
-script will preload all of the requisite docker
-images for Hyperledger Fabric and tag them with the 'latest' tag. Optionally,
-specify a version for fabric, fabric-ca and thirdparty images. Default versions
-are 1.3.0, 1.3.0 and 0.4.13 respectively.
+Open a bash terminal in the PRS folder and issue the command `./startFabric.sh`
 
-```bash
-./scripts/bootstrap.sh [version] [ca version] [thirdparty_version]
-```
+Now that the network is launched, you can query the entirety of the ledger with the command: `node query.js`
+Or you can insert a new product, a refrigerator, by using `node invoke.js`
+If you want to experiment with your own inserts or queries, you can modify the request in both of these scripts, another request example is provided in query.js to query only one product.
+
+The chaincode contains more functions to try which are not shown in query.js and invoke.js.
+
+
+
+
+
 
 ## License <a name="license"></a>
 
