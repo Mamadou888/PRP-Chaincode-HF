@@ -160,14 +160,14 @@ let Chaincode = class {
 
 
 
-  async acceptProduct(stub, args, thisClass) {
+  /*async acceptProduct(stub, args, thisClass) {
     console.info('============= START : changeProductStatus ===========');
     //args[0] = key or reference
     //args[1 .. n] = market that is now accepting the product
 
-    /*if (args.length != 2) {
+    if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
-    }*/
+    }
 
     let ProductAsBytes = await stub.getState(args[0]);
     let product = JSON.parse(ProductAsBytes);
@@ -193,7 +193,7 @@ let Chaincode = class {
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
     console.info('============= END : changeCarOwner ===========');
-  }
+  }*/
 
   async changeProductStatus(stub, args, thisClass) {
     console.info('============= START : changeProductStatus ===========');

@@ -72,8 +72,10 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		txId: tx_id
 	};*/
 
-	var request = {//Creates a refrigerator
-		//targets: let default to the peer assigned to the client
+	var request = {//Changes the status of a product (acceptance into a market)
+		//args[0] = key or reference
+    	//args[1] = 'accepted', 'rejected', 'pending'
+    	//args[2 .. n] = market that is now accepting the product
 		chaincodeId: 'PRS',
 		fcn: 'changeProductStatus',
 		args: ['LIGHTING2','accepted','europe','canada'],
