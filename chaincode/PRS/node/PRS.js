@@ -50,25 +50,37 @@ let Chaincode = class {
       brand: 'LightBulbsInc',
       model: 'X-300',
       lumens: '320',
-      watts: '4.5'
+      watts: '4.5',
+      accepted: [],
+      pending:[],
+      rejected: []
     });
     lighting.push({
       brand: 'LightBulbsInc',
       model: 'X-345',
       lumens: '600',
-      watts: '8'
+      watts: '8',
+      accepted: [],
+      pending:[],
+      rejected: []
     });
     lighting.push({
       brand: 'EnergyLossCo',
       model: 'Z-12-6',
       lumens: '600',
-      watts: '20'
+      watts: '20',
+      accepted: ['europe'],
+      pending:['canada'],
+      rejected: []
     });
     lighting.push({
       brand: 'LightBulbsInc',
       model: 'X-1500',
       lumens: '1600',
-      watts: '15'
+      watts: '15',
+      accepted: [],
+      pending:[],
+      rejected: []
     });
 
     for (let i = 0; i < lighting.length; i++) {
@@ -116,11 +128,11 @@ let Chaincode = class {
 ////////////////////////////////////////////////////////////////////////////
 
 
-  async createProduct(stub, args, thisClass) {
+  /*async createProduct(stub, args, thisClass) {
     console.info('============= START : Create Product ===========');
-    /*if (args.length != 6) {
-      throw new Error('Incorrect number of arguments. Expecting 6');
-    }*/
+    //if (args.length != 6) {
+    //  throw new Error('Incorrect number of arguments. Expecting 6');
+    //}
     if (args[1]='refrigerator'){
       var product = {
       docType: 'refrigerator',
@@ -144,10 +156,142 @@ let Chaincode = class {
     await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
     //args[0] is the reference of the product, the unique ID for it
     console.info('============= END : Create Product ===========');
+  }*/
+
+
+
+  async acceptProduct(stub, args, thisClass) {
+    console.info('============= START : changeProductStatus ===========');
+    //args[0] = key or reference
+    //args[1 .. n] = market that is now accepting the product
+
+    /*if (args.length != 2) {
+      throw new Error('Incorrect number of arguments. Expecting 2');
+    }*/
+
+    let ProductAsBytes = await stub.getState(args[0]);
+    let product = JSON.parse(ProductAsBytes);
+
+    for (var i = 1; i < args.length; i++){
+      var alreadyAccepted = false;
+      for (var j = 0; j < product.accepted.length; j++){
+        if (product.accepted[j]==args[i]){
+          console.info(product.accepted[j] + ' has already accepted ' + args[0]);
+          alreadyAccepted = true;
+        }
+        if (product.pending[j]==args[i]){
+          product.pending.splice(j,1);
+        }
+        if (product.rejected[j]==args[i]){
+          product.rejected.splice(j,1);
+        }
+      }
+      if (!alreadyAccepted){
+        product.accepted.push(args[i]);
+      }
+    }
+
+    await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
+    console.info('============= END : changeCarOwner ===========');
+  }
+
+  async changeProductStatus(stub, args, thisClass) {
+    console.info('============= START : changeProductStatus ===========');
+    //args[0] = key or reference
+    //args[1] = 'accepted', 'rejected', 'pending'
+    //args[2 .. n] = market that is now accepting the product
+
+    /*if (args.length != 2) {
+      throw new Error('Incorrect number of arguments. Expecting 2');
+    }*/
+
+    let ProductAsBytes = await stub.getState(args[0]);
+    let product = JSON.parse(ProductAsBytes);
+    var lengthArray = 0;
+    if(args[1]=='accepted'){
+
+      lengthArray = product.accepted.length
+
+    }else if(args[1]=='rejected'){
+
+      lengthArray = product.rejected.length
+
+    }else if(args[1]=='pending'){
+
+      lengthArray = product.pending.length
+
+    }
+
+    for (var i = 2; i < args.length; i++){
+      var alreadyChanged = false;
+      for (var j = 0; j < lengthArray; j++){
+        if (product.accepted[j]==args[i]){
+          //if product already accepted for this market
+          if(args[1]=='accepted'){
+            //and our objective is to accept this product for this market
+            console.info(product.accepted[j] + ' has already accepted ' + args[0]);
+            alreadyChanged = true;
+            //then do nothing and print message
+
+          }else{
+            product.accepted.splice(j,1);
+            //else delete the market id from the 'accepted' section of the product
+          }
+
+          
+        }
+        if (product.pending[j]==args[i]){
+          //if product already on hold for this market
+          if(args[1]=='pending'){
+            //and our objective is to put on hold this product for this market
+            console.info(product.pending[j] + ' has already ' + args[0] + ' on hold');
+            alreadyChanged = true;
+            //then do nothing and print message
+
+          }else{
+            product.pending.splice(j,1);
+            //else delete the market id from the 'pending' section of the product
+          }
+        }
+        if (product.rejected[j]==args[i]){
+          //if product already rejected
+          if(args[1]=='rejected'){
+            //and our objective is to reject this product for this market
+            console.info(product.rejected[j] + ' has already rejected ' + args[0]);
+            alreadyChanged = true;
+            //then do nothing and print message
+
+          }else{
+            product.rejected.splice(j,1);
+            //else delete the market id from the 'reject' section of the product
+          }
+        }
+      }
+      if (!alreadyChanged){
+        //if we want to change the status of the product regarding a certain market
+        //and the change we want to do hasn't already been done, then do it
+        if(args[1]=='accepted'){
+
+          product.accepted.push(args[i]);
+
+        }else if(args[1]=='rejected'){
+
+          product.rejected.push(args[i]);
+
+        }else if(args[1]=='pending'){
+
+          product.pending.push(args[i]);
+
+        }
+      }
+    }
+
+    await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
+    console.info('============= END : changeCarOwner ===========');
   }
 
 ////////////////////////////////////////////////////////////////////////////
-//////////////////////////   QUERIES ///////////////////////////////////////
+//////////////////////////   QUERIES   /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
 

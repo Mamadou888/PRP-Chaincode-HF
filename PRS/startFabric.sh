@@ -53,3 +53,6 @@ cd ../PRS
 node enrollAdmin.js
 node registerUser.js
 
+node query.js
+node invoke.js
+node query.js

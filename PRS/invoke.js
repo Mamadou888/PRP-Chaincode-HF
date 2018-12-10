@@ -63,11 +63,20 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		parameters[i] = process.argv.slice(i + 2)
 	}*/
 
-	var request = {//Creates a refrigerator
+	/*var request = {//Creates a refrigerator
 		//targets: let default to the peer assigned to the client
 		chaincodeId: 'PRS',
 		fcn: 'createProduct',
 		args: ['REFRIGERATOR4','refrigerator','HyperCooler','CT4','1','3400'],
+		chainId: 'mychannel',
+		txId: tx_id
+	};*/
+
+	var request = {//Creates a refrigerator
+		//targets: let default to the peer assigned to the client
+		chaincodeId: 'PRS',
+		fcn: 'changeProductStatus',
+		args: ['LIGHTING2','accepted','europe','canada'],
 		chainId: 'mychannel',
 		txId: tx_id
 	};
