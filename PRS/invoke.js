@@ -63,25 +63,28 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		parameters[i] = process.argv.slice(i + 2)
 	}*/
 
-	/*var request = {//Creates a refrigerator
+	var request = {//Creates a refrigerator
 		//targets: let default to the peer assigned to the client
 		chaincodeId: 'PRS',
 		fcn: 'createProduct',
 		args: ['REFRIGERATOR4','refrigerator','HyperCooler','CT4','1','3400'],
 		chainId: 'mychannel',
 		txId: tx_id
-	};*/
+	};
 
-	var request = {//Changes the status of a product (acceptance into a market)
+	/*var request = {//Changes the status of a product (acceptance into a market)
 		//args[0] = key or reference
     	//args[1] = 'accepted', 'rejected', 'pending'
-    	//args[2 .. n] = market that is now accepting the product
+    	//args[2 .. n] = market that is now accepting or rejecting or putting on hold
+    	// the product
+
+    	//accepts the lighting product "LIGHTING2" into europe and canada
 		chaincodeId: 'PRS',
 		fcn: 'changeProductStatus',
 		args: ['LIGHTING2','accepted','europe','canada'],
 		chainId: 'mychannel',
 		txId: tx_id
-	};
+	};*/
 
 	// send the transaction proposal to the peers
 	return channel.sendTransactionProposal(request);

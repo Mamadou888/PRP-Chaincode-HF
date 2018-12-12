@@ -128,7 +128,7 @@ let Chaincode = class {
 ////////////////////////////////////////////////////////////////////////////
 
 
-  /*async createProduct(stub, args, thisClass) {
+  async createProduct(stub, args, thisClass) {
     console.info('============= START : Create Product ===========');
     //if (args.length != 6) {
     //  throw new Error('Incorrect number of arguments. Expecting 6');
@@ -156,7 +156,7 @@ let Chaincode = class {
     await stub.putState(args[0], Buffer.from(JSON.stringify(product)));
     //args[0] is the reference of the product, the unique ID for it
     console.info('============= END : Create Product ===========');
-  }*/
+  }
 
 
 
