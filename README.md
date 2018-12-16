@@ -6,8 +6,8 @@ Uses currently the fabcar's tutorial network as a basis that was modified and bu
 
 ## Manual of the user
 
-Open a bash terminal in the PRS folder and issue the command `npm install`
-Then, please copy and paste grpc_node.node that is in the patch folder in PRP-ChaincodeHF/PRS/node_modules/fabric_client/node_modules/grpc/src/node/extension_binary/node-v57-linux-x64-glibc
+Open a bash terminal in the PRS folder and issue the command `npm install`.
+Then, please copy and paste grpc_node.node that is in the patch folder in PRP-ChaincodeHF/PRS/node_modules/fabric_client/node_modules/grpc/src/node/extension_binary/node-v57-linux-x64-glibc.
 From the PRS folder again, issue `./startFabric.sh`
 
 Now that the network is launched, you can query the entirety of the ledger with the command: `node query.js`
