@@ -1,9 +1,8 @@
-[//]: # (SPDX-License-Identifier: CC-BY-4.0)
 
 ## Product Registration System Blockchain
 
 Works with Hyperledger Fabric (https://www.hyperledger.org/projects/fabric).
-Uses currently the fabcar's tutorial network as a basis that was built upon.
+Uses currently the fabcar's tutorial network as a basis that was modified and built upon.
 
 ## Manual of the user
 
@@ -16,13 +15,3 @@ If you want to experiment with your own inserts or queries, you can modify the r
 The chaincode contains more functions to try which are not shown in query.js and invoke.js.
 
 
-
-
-
-
-## License <a name="license"></a>
-
-Hyperledger Project source code files are made available under the Apache
-License, Version 2.0 (Apache-2.0), located in the [LICENSE](LICENSE) file.
-Hyperledger Project documentation files are made available under the Creative
-Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.

@@ -1,8 +1,8 @@
 {
-    "name": "fabcar",
+    "name": "PRS",
     "version": "1.0.0",
-    "description": "Hyperledger Fabric Car Sample Application",
-    "main": "fabcar.js",
+    "description": "Hyperledger Product Registration Prototype Sample Application",
+    "main": "PRS.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -11,7 +11,7 @@
         "fabric-client": "~1.3.0",
         "grpc": "^1.6.0"
     },
-    "author": "Anthony O'Dowd",
+    "author": "",
     "license": "Apache-2.0",
     "keywords": [
         "Hyperledger",
