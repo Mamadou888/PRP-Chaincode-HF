@@ -23,22 +23,23 @@ From the PRS folder again, issue `./startFabric.sh`.
 * Query all: Queries all products
 * Add product: Adds a product. Fields "Reference" and "Type" are required. Issuing this request with the reference of an existing product will allow you to change its type and all its attribute, but its entire status will be reset to blank.
 * Modify product: Modifies a product. Field "Reference" is required. Issuing this request will allow you to change all its attributes except its type and will keep unchanged its status.
-* Change status: Changes the status of a product (its acceptance or not into a market). Field "Reference" is required.
+* Change status: Changes the status of a product (its acceptance or not into a market). Field "Reference" is required. At least on market must be specified, you can change the status of a product in multiple markets at once.
 * Search product: Queries a given product identified by its reference. Field "Reference" is required.
 * Get history: Queries the history of changes for a given product identified by its reference. Field "Reference" is required.
 
 ### Interact with the Network via the CLI
 
-* Query all products : `node query queryAllProducts`
-Prints all products
+* Query all products : `node query queryAllProducts` - Prints all products
 
-* Query a product by reference : `node query queryProductByKey <reference>`
-Prints the product with the specific reference
+* Query a product by reference : `node query queryProductByKey <reference>` - Prints the product with the specific reference
 
-* Get history of changes for a product : `node query getHistoryForProduct <reference>`
-Prints the history of changes of a product with the specified reference
+* Get history of changes for a product : `node query getHistoryForProduct <reference>` - Prints the history of changes of a product with the specified reference
 
-* Create a product : `node invoke createProduct <reference> <type> <brand> <model> <volume/lumens> <annualConsumption/watts>`
+* Add a product : `node invoke createProduct <reference> <type> <brand> <model> <volume/lumens> <annualConsumption/watts>` - Creates a product with the specified characteristics
+
+* Modify a product : `node invoke modifyProduct <reference> <brand> <model> <volume/lumens> <annualConsumption/watts>` - Modifies a product with the specified characteristics
+
+* Change the status of a product : `node invoke changeProductStatus <reference> <status> <mandatory> <optionnal> <optionnal> ...` - status : accepted / rejected / pending - mandatory : name of the market - optionnal : name of the market
 
 ### Interact with the Network via an Express Application
 
