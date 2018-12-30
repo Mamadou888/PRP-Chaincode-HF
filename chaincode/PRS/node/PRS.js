@@ -5,7 +5,7 @@ const util = require('util');
 
 let Chaincode = class {
 
-  // The Init method is called when the Smart Contract 'fabcar' is instantiated by the blockchain network
+  // The Init method is called when the Smart Contract 'PRS' is instantiated by the blockchain network
   // Best practice is to have any Ledger initialization in separate function -- see initLedger()
   async Init(stub) {
     console.info('=========== Instantiated fabcar chaincode ===========');
@@ -13,7 +13,7 @@ let Chaincode = class {
   }
 
   // The Invoke method is called as a result of an application request to run the Smart Contract
-  // 'fabcar'. The calling application program has also specified the particular smart contract
+  // 'PRS'. The calling application program has also specified the particular smart contract
   // function to be called, with arguments
   async Invoke(stub) {
     let ret = stub.getFunctionAndParameters();
@@ -37,6 +37,8 @@ let Chaincode = class {
 //////////////////////////   INIT    ///////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
+	
+//initializes the ledger with 4 lightings and 4 refrigerators
   async initLedger(stub, args,thisClass) {
     console.info('============= START : Initialize Ledger ===========');
     let lighting = [];
@@ -133,7 +135,8 @@ let Chaincode = class {
 //////////////////////////   INVOKE   //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-
+//this function is responsible for the creation of a product.
+//the template for a certain type of product is coded here 
   async createProduct(stub, args, thisClass) {
     console.info('============= START : Create Product ===========');
     if (args.length != 6) {
@@ -171,6 +174,8 @@ let Chaincode = class {
     console.info('============= END : Create Product ===========');
   }
 
+//this function uses the reference of the product you want to change to determine which type of product is concerned
+//it then applies your modications accordingly
   async modifyProduct(stub, args, thisClass) {
     console.info('============= START : Create Product ===========');
     if (args.length != 5) {
@@ -198,7 +203,8 @@ let Chaincode = class {
   }
 
 
-
+//this function takes as an input the ref of the product, the type of status you wish to change (accepted/rejected/pending)
+// and the names or an id of the markets 
   async changeProductStatus(stub, args, thisClass) {
     console.info('============= START : changeProductStatus ===========');
     //args[0] = key or reference
