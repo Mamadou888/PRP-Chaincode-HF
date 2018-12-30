@@ -2,13 +2,13 @@
 
 This git repository provides a blockchain network based on Hyperledger Fabric (https://www.hyperledger.org/projects/fabric) fabcar's network.
 
-## Manual of the user
+## User Guide
 
-Before starting, please verify that your system possess the prerequisites : https://hyperledger-fabric.readthedocs.io/en/release-1.3/prereqs.html .
+Before starting, please verify that your system possesses the prerequisites : https://hyperledger-fabric.readthedocs.io/en/release-1.3/prereqs.html .
 
-For this demo, we don't need Go, we use Node.Js instead.
+For this demo, we won't need Go, we use Node.Js instead.
 
-If your PATH environment variable is not already pointing to the binary files necessary for the function of hyperledger fabric, please open a terminal and execute `export PATH=<full path to bin location>:$PATH`, bin is included in this git repository at `PRP-Chaincode-HF/bin` .
+If your PATH environment variable is not already pointing to the binary files necessary for the operation of hyperledger fabric, please open a terminal and execute `export PATH=<full path to bin location>:$PATH`, bin is included in this git repository at `PRP-Chaincode-HF/bin` .
 
 ### Start the Hyperledger Fabric Network
 
