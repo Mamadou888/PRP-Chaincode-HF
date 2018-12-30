@@ -8,7 +8,7 @@ let Chaincode = class {
   // The Init method is called when the Smart Contract 'PRS' is instantiated by the blockchain network
   // Best practice is to have any Ledger initialization in separate function -- see initLedger()
   async Init(stub) {
-    console.info('=========== Instantiated fabcar chaincode ===========');
+    console.info('=========== Instantiated PRS chaincode ===========');
     return shim.success();
   }
 
