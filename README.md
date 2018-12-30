@@ -29,16 +29,16 @@ From the PRS folder again, issue `./startFabric.sh`.
 
 ### Interact with the Network via the CLI
 
-* Query all products : node query queryAllProducts
+* Query all products : `node query queryAllProducts`
 Prints all products
 
-* Query a product by reference : node query queryProductByKey <reference>
+* Query a product by reference : `node query queryProductByKey <reference>`
 Prints the product with the specific reference
 
-* Get history of changes for a product : node query getHistoryForProduct <reference>
+* Get history of changes for a product : `node query getHistoryForProduct <reference>`
 Prints the history of changes of a product with the specified reference
 
-* Create a product : node invoke createProduct <reference> <type> <brand> <model> <volume/lumens> <annualConsumption/watts> 
+* Create a product : `node invoke createProduct <reference> <type> <brand> <model> <volume/lumens> <annualConsumption/watts>`
 
 ### Interact with the Network via an Express Application
 
