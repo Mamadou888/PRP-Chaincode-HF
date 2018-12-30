@@ -44,18 +44,47 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		throw new Error('Failed to get user1.... run registerUser.js');
 	}
 
-	/*const request = {//Queries the product with the reference : REFRIGERATOR1
-		//targets : --- letting this default to the peers assigned to the channel
-		chaincodeId: 'PRS',
-		fcn: 'queryProductByKey',
-		args: ['REFRIGERATOR1']
-	};*/
-	const request = {//queries all products stored in the blockchain
-		
-		chaincodeId: 'PRS',
-		fcn: 'queryAllProducts',
-		args: ['']
-	};
+	var func;
+	var Arr = [];
+	process.argv.forEach(function (val, index, array) {
+	  if (index == 2){
+	  	func = val;
+	  }
+	  if (index > 2){
+	  	Arr.push(val);
+	  }
+	  console.log(index + ': ' + val);
+	});
+
+    var request;
+
+	if(func == 'queryProductByKey'){
+		request = {//Queries the product with the specified reference
+			//targets : --- letting this default to the peers assigned to the channel
+			chaincodeId: 'PRS',
+			fcn: 'queryProductByKey',
+			args: [Arr[0]]
+		};
+	}
+
+	if(func == 'queryAllProducts'){//queries all product by alphanumerical order of the reference/key 
+		request = {
+			
+			chaincodeId: 'PRS',
+			fcn: 'queryAllProducts',
+			args: ['']
+		};
+	}		
+
+	if(func == 'getHistoryForProduct'){//queries all product by alphanumerical order of the reference/key 
+		request = {
+			
+			chaincodeId: 'PRS',
+			fcn: 'getHistoryForProduct',
+			args: [Arr[0]]
+		};
+	}
+
 
 	// send the query proposal to the peer
 	return channel.queryByChaincode(request);

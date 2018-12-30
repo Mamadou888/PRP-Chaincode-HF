@@ -51,36 +51,57 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	tx_id = fabric_client.newTransactionID();
 	console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-	//bit of code to gather arguments if this script purpose is to gather arguments
-	//via the CLI
+	var func;
+	var Arr = [];
+	process.argv.forEach(function (val, index, array) {
+	  if (index == 2){
+	  	func = val;
+	  }
+	  if (index > 2){
+	  	Arr.push(val);
+	  }
+	  console.log(index + ': ' + val);
+	});
 
-	/*var parameters = [];
-	for (var i = 0; i < 6; i++){
-		parameters[i] = process.argv.slice(i + 2)
-	}*/
+	var request;
 
-	var request = {//Creates a refrigerator
-		//targets: let default to the peer assigned to the client
-		chaincodeId: 'PRS',
-		fcn: 'createProduct',
-		args: ['REFRIGERATOR4','refrigerator','HyperCooler','CT4','1','3400'],
-		chainId: 'mychannel',
-		txId: tx_id
-	};
+	if (func == 'createProduct'){	
+		request = {//Creates a product
+			//targets: let default to the peer assigned to the client
+			chaincodeId: 'PRS',
+			fcn: 'createProduct',
+			args: [Arr[0],Arr[1],Arr[2],Arr[3],Arr[4],Arr[5]],
+			chainId: 'mychannel',
+			txId: tx_id
+		};
+	}
 
-	/*var request = {//Changes the status of a product (acceptance into a market)
+	if (func == 'modifyProduct'){	
+		request = {//Creates a product
+			//targets: let default to the peer assigned to the client
+			chaincodeId: 'PRS',
+			fcn: 'modifyProduct',
+			args: [Arr[0],Arr[1],Arr[2],Arr[3],Arr[4]],
+			chainId: 'mychannel',
+			txId: tx_id
+		};
+	}
+
+	if (func == 'changeProductStatus'){	
+		request = {//Changes the status of a product (acceptance into a market)
 		//args[0] = key or reference
     	//args[1] = 'accepted', 'rejected', 'pending'
     	//args[2 .. n] = market that is now accepting or rejecting or putting on hold
     	// the product
+			chaincodeId: 'PRS',
+			fcn: 'changeProductStatus',
+			args: Arr,
+			chainId: 'mychannel',
+			txId: tx_id
+		};
+	}
 
-    	//accepts the lighting product "LIGHTING2" into europe and canada
-		chaincodeId: 'PRS',
-		fcn: 'changeProductStatus',
-		args: ['LIGHTING2','accepted','europe','canada'],
-		chainId: 'mychannel',
-		txId: tx_id
-	};*/
+	console.log(request);
 
 	// send the transaction proposal to the peers
 	return channel.sendTransactionProposal(request);
