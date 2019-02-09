@@ -39,7 +39,7 @@ From the PRS folder again, issue `./startFabric.sh`.
 
 * Modify a product : `node invoke modifyProduct <reference> <brand> <model> <volume/lumens> <annualConsumption/watts>` - Modifies a product with the specified characteristics
 
-* Change the status of a product : `node invoke changeProductStatus <reference> <status> <mandatory> <optionnal> <optionnal> ...` - status : accepted / rejected / pending - mandatory : name of the market - optionnal : name of the market
+* Change the status of a product : `node invoke changeProductStatus <reference> <status> <mandatory> <optionnal> <optionnal> ...` - status : accepted / rejected / pending - mandatory : name of the market - optionnal : name of the market(s)
 
 ### Interact with the Network via an Express Application
 
