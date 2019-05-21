@@ -1,6 +1,7 @@
 'use strict';
 /*
  * Chaincode query block
+ * Does not work
  */
 
 
