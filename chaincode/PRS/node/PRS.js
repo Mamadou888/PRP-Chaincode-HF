@@ -141,31 +141,34 @@ let Chaincode = class {
     console.info('============= START : Create Product ===========');
     if (args.length != 6) {
       throw new Error('Incorrect number of arguments. Expecting 6');
-    }
-    if (args[1]=='refrigerator'){
-      var product = {
-      docType: 'refrigerator',
-      brand: args[2],
-      model: args[3],
-      volume: args[4],
-      annualConsumption: args[5],
-      accepted: [],
-      pending:[],
-      rejected: []
-      };
-    }
-    if (args[1]=='lighting'){
-      var product = {
-      docType: 'lighting',
-      brand: args[2],
-      model: args[3],
-      lumens: args[4],
-      watts: args[5],
-      accepted: [],
-      pending:[],
-      rejected: []
-      };
-
+    }  
+    switch (args[1]) {
+	    case "refrigerator":
+		    var product = {
+     		 	  docType: 'refrigerator',
+      			  brand: args[2],
+		      	  model: args[3],
+		          volume: args[4],
+		          annualConsumption: args[5],
+		          accepted: [],
+		          pending:[],
+		          rejected: []
+		      };
+	    	    break;
+	    case "lighting":
+		    var product = {
+      		    	docType: 'lighting',
+      			brand: args[2],
+      			model: args[3],
+		        lumens: args[4],
+		        watts: args[5],
+		        accepted: [],
+		        pending:[],
+		        rejected: []
+		    };
+		    break;
+	    default: 
+		    throw new Error("Sorry. The first argument must either be lighting or refrigerator");
     }
     
 
